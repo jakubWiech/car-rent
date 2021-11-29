@@ -1,33 +1,26 @@
 <script>
-  import Tailwindcss from "./Tailwindcss.svelte";
+  import Header from "./components/Header.svelte";
+  import Router from "svelte-spa-router";
+  import Home from "./components/Home.svelte";
+  import Login from "./components/Login.svelte";
+  import Register from "./components/Register.svelte";
+  import Account from "./components/Account.svelte";
+  import Cars from "./components/Cars.svelte";
+  import Offers from "./components/Offers.svelte";
+  import NotFound from "./components/NotFound.svelte";
 </script>
 
-<Tailwindcss />
-
 <main>
-  <nav class="bg-blue-900 shadow-lg">
-    <div class="container mx-auto">
-      <div class="sm:flex">
-        <a href="#" class="text-white text-3xl font-bold p-3">APP LOGO</a>
-
-        <!-- Menus -->
-        <div class="ml-55 mt-4">
-          <ul class="text-white sm:self-center text-xl">
-            <li class="sm:inline-block">
-              <a href="#" class="p-3 hover:text-red-900">About</a>
-            </li>
-            <li class="sm:inline-block">
-              <a href="#" class="p-3 hover:text-red-900">Services</a>
-            </li>
-            <li class="sm:inline-block">
-              <a href="#" class="p-3 hover:text-red-900">Blog</a>
-            </li>
-            <li class="sm:inline-block">
-              <a href="#" class="p-3 hover:text-red-900">Contact</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </nav>
+  <Header />
+  <Router
+    routes={{
+      "/": Home,
+      "/login": Login,
+      "/register": Register,
+      "/account": Account,
+      "/cars": Cars,
+      "/offers": Offers,
+      "*": NotFound,
+    }}
+  />
 </main>
