@@ -17,7 +17,9 @@
         }else{
             $row = $result->fetch_assoc();
             if(password_verify($_POST['pass'], $row['password'])){
-                echo json_encode("success");
+                $response['status'] = "success";
+                $response['id'] = $row['id'];
+                echo json_encode($response);
             }
         }
     }else{

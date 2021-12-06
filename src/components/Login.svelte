@@ -19,9 +19,10 @@
                     .then((res) => res.json())
                     .then((res) => {
                         console.log(res);
-                        switch (res) {
+                        switch (res.status) {
                             case "success":
                                 sessionStorage.setItem("logged", true);
+                                sessionStorage.setItem("id", res.id);
                                 window.location.href = "/";
                                 break;
                             case "incorrect":
