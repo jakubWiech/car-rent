@@ -11,22 +11,37 @@
   export let price = null;
   export let status = null;
   import Rent from "./stores/rentstore";
-  onMount(() => {
-    document.getElementById("rentBt").addEventListener("click", function () {
-      let reservData = new FormData();
-      reservData.append("start", $Rent.dateStart);
-      reservData.append("end", $Rent.dateEnd);
-      reservData.append("car", id);
-      reservData.append("user", sessionStorage.getItem("id"));
-      reservData.append("price", price);
-      fetch("http://www.carsrentserver.fl/rent.php", {
-        method: "POST",
-        body: reservData,
-      })
-        .then((res) => res.json())
-        .then((res) => console.log(res));
-    });
-  });
+  function rentCar() {
+    let reservData = new FormData();
+    let startDate = new Date($Rent.dateStart);
+    let endDate = new Date($Rent.dateEnd);
+    reservData.append(
+      "start",
+      startDate.getFullYear() +
+        "-" +
+        (startDate.getMonth() + 1) +
+        "-" +
+        startDate.getDate()
+    );
+    reservData.append(
+      "end",
+      endDate.getFullYear() +
+        "-" +
+        (endDate.getMonth() + 1) +
+        "-" +
+        endDate.getDate()
+    );
+    reservData.append("car", id);
+    reservData.append("user", sessionStorage.getItem("id"));
+    reservData.append("price", price);
+    fetch("http://www.carsrentserver.fl/rent.php", {
+      method: "POST",
+      body: reservData,
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  }
+  onMount(() => {});
 </script>
 
 <main>
@@ -54,7 +69,7 @@
       {/if}
     {/if}
     {#if status == "available" || status == "waiting"}
-      <button class="rentBt" id="rentBt">Rent car!</button>
+      <button class="rentBt" on:click={rentCar}>Rent car!</button>
     {/if}
   </div>
 </main>

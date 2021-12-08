@@ -7,6 +7,7 @@
   import Account from "./components/Account.svelte";
   import Cars from "./components/Cars.svelte";
   import Offers from "./components/Offers.svelte";
+  import Terms from "./components/Terms.svelte";
   import NotFound from "./components/NotFound.svelte";
 </script>
 
@@ -20,6 +21,7 @@
       "/account": Account,
       "/cars": Cars,
       "/offers": Offers,
+      "/terms": Terms,
       "*": NotFound,
     }}
   />
