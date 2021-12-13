@@ -19,7 +19,13 @@
             if(password_verify($_POST['pass'], $row['password'])){
                 $response['status'] = "success";
                 $response['id'] = $row['id'];
-                echo json_encode($response);
+                $response['permissions'] = $row['permissions'];
+                if($row['active']){
+                    echo json_encode($response);
+                }else{
+                    echo json_encode("not active");
+                }
+                
             }
         }
     }else{

@@ -4,12 +4,14 @@
         window.location.href = "/#/account";
     }
     let wrongData = false;
+    let notActive = false;
     onMount(() => {
         document
             .getElementById("login-form")
             .addEventListener("submit", function (e) {
                 e.preventDefault();
                 wrongData = false;
+                notActive = false;
                 let data = new FormData(this);
 
                 fetch("http://www.carsrentserver.fl/login.php", {
@@ -19,14 +21,23 @@
                     .then((res) => res.json())
                     .then((res) => {
                         console.log(res);
-                        switch (res.status) {
-                            case "success":
-                                sessionStorage.setItem("logged", true);
-                                sessionStorage.setItem("id", res.id);
-                                window.location.href = "/";
-                                break;
-                            case "incorrect":
-                                wrongData = true;
+                        if (res == "not active") {
+                            notActive = true;
+                        } else {
+                            switch (res.status) {
+                                case "success":
+                                    sessionStorage.setItem("logged", true);
+                                    sessionStorage.setItem("id", res.id);
+                                    sessionStorage.setItem(
+                                        "permissions",
+                                        res.permissions
+                                    );
+                                    window.location.href = "/";
+                                    break;
+                                case "incorrect":
+                                    wrongData = true;
+                                    break;
+                            }
                         }
                     });
             });
@@ -47,6 +58,9 @@
                     <input type="password" name="pass" />
                     {#if wrongData}
                         <p>Incorrect login or password.</p>
+                    {/if}
+                    {#if notActive}
+                        <p>User exist but isn't activated yet.</p>
                     {/if}
                     <input
                         type="submit"

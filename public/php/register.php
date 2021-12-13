@@ -13,14 +13,20 @@
         $stmt->execute();
         $result = $stmt->get_result();
         if($result->num_rows === 0){
-            $stmt = $mysqli->prepare("INSERT INTO users (`login`, `password`, `permissions`) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $_POST['login'], $pass, $perm);
+            $stmt = $mysqli->prepare("INSERT INTO users (`login`, `password`, `permissions`, `active`) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("sssi", $_POST['login'], $pass, $perm, $active);
             $pass = password_hash($_POST['pass'], PASSWORD_DEFAULT);
             $perm = "user";
+            $active = 0;
             $stmt->execute();
             echo json_encode("success");
         }else{
-            echo json_encode("user exists");
+            $row = mysqli_fetch_assoc($result);
+            if($row['active']){
+                echo json_encode("user exists");
+            }else{
+                echo json_encode("user not active");
+            }
         }
     }else{
         echo json_encode("error");
